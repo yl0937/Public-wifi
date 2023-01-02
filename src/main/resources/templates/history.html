@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <h1>위치 히스토리 목록</h1>
+    <a href="http://localhost:8080">홈</a>
+    <a href="http://localhost:8080/history">위치 히스토리 목록</a>
+    <a href="http://localhost:8080">Open API 와이파이 정보 가져오기</a>
+</head>
+<body>
+<table>
+    <tr>
+        <td>ID</td>
+        <td>X좌표</td>
+        <td>Y좌표</td>
+        <td>조회일자</td>
+        <td>비고</td>
+    </tr>
+</table>
+</body>
+</html>
+<style>
+    table, th, td {
+        border: 1px solid;
+    }
+</style>
+<script>
+    function getList(){
+
+    }
+</script>
+<!--<!DOCTYPE html>-->
+<!--<html lang="kr">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>서울시 열린데이터 광장 OpenAPI 샘플(Javascript)</title>-->
+<!--</head>-->
+<!--<body onload="check()">-->
+<!--</body>-->
+<!--</html>-->
+
+<!--<script>-->
+<!--    function check()-->
+<!--    {-->
+<!--        var xhr = new XMLHttpRequest();-->
+<!--        var url = 'http://openapi.seoul.go.kr:8088/sample/xml/CardSubwayStatsNew/1/5/20220301'; /*URL*/-->
+<!--        xhr.open('GET', url);-->
+<!--        xhr.onreadystatechange = function () {-->
+<!--            if (this.readyState == xhr.DONE) { // <== 정상적으로 준비되었을때-->
+<!--                if(xhr.status == 200||xhr.status == 201){ // <== 호출 상태가 정상적일때-->
+<!--                    alert('Status: '+this.status+-->
+<!--                        '\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+-->
+<!--                        '\nBody: '+this.responseText);-->
+<!--                }-->
+<!--            }-->
+<!--        };-->
+<!--        xhr.send('');-->
+<!--    }-->
+<!--</script>-->
