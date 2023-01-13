@@ -106,12 +106,13 @@ public class WifiController {
 
             Object obj1 = jsonParser.parse(TbPublicWifiInfo);
             JSONObject jsonObject1 = (JSONObject) obj1;
+            System.out.println(TbPublicWifiInfo);
 
             JSONObject jsonObject2 = new JSONObject(jsonObject1);
-            JSONArray jsonArray = jsonObject2.get("row");
+//            JSONArray jsonArray = jsonObject2.get("row");
 //            String row = (String) jsonObject1.get("row").toString();
 //            JSONObject jsonArray = (JSONObject) jsonObject1.get("row");
-            System.out.println(jsonArray);
+//            System.out.println(jsonArray);
             return "X_SWIFI_MGR_NO";
 
         } catch (Exception e) {
