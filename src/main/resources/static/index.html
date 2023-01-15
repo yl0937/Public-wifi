@@ -8,5 +8,25 @@
 <body>
 <a href="http://localhost:8080/">홈</a>
 <a href="http://localhost:8080/history">히스토리목록</a>
+<a><button onclick="getWifiInfo()">목록조회</button></a>
 </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function getWifiInfo(){
+        var ajax = $.ajax({
+            url: "/wifi-test",
+            type:'GET',
+            success: function(response) {
+                if(response == "SUCCESS") {
+                    alert("성공");
+
+                }
+                else {
+                    alert("실패");
+                    // location.replace('/');
+                }
+            }
+        });
+    }
+</script>
