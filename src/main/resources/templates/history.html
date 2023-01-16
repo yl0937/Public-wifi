@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Check</title>
     <h1>위치 히스토리 목록</h1>
     <a href="http://localhost:8080">홈</a>
     <a href="http://localhost:8080/history">위치 히스토리 목록</a>
     <a href="http://localhost:8080">Open API 와이파이 정보 가져오기</a>
 </head>
-<body>
-<table>
+<body onload="getList()">
+<table class="table1">
     <tr>
-        <td colspan="2">ID</td>
+        <td>ID</td>
         <td>X좌표</td>
         <td>Y좌표</td>
         <td>조회일자</td>
@@ -20,5 +20,35 @@
 </table>
 </body>
 </html>
+<style>
+    table, th, td {
+        border: 1px solid;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function getList(){
+        var ajax = $.ajax({
+            url: "/get-history",
+            type:'GET',
+            success: function(response) {
+                if(response.length>0)
+                {
+                    var resultList = response
 
+                    for(var i=0;i<resultList.length;i++){
+                        var body = document.getElementsByClassName("table1");
+                        var tr = $("<tr></tr>");
+                        $(tr).append("<td>"+resultList[i]["id"]+"</td>"+
+                            "<td>"+resultList[i]["x"]+"</td>"+
+                            "<td>"+resultList[i]["y"]+"</td>"+
+                            "<td>"+resultList[i]["createdAt"]+"</td>"
+                        )
+                        $(body).append(tr);
+                    }
 
+                }
+            }
+        });
+    }
+</script>

@@ -1,32 +1,133 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        #table1 {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #table1 td, #table1 th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #table1 tr:nth-child(even){background-color: #f2f2f2;}
+
+        #table1 tr:hover {background-color: #ddd;}
+
+        #table1 th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
     <meta charset="UTF-8">
     <title>Index</title>
     <h1>와이파이 정보 구하기</h1>
 </head>
 <body>
 <a href="http://localhost:8080/">홈</a>
-<a href="http://localhost:8080/history">히스토리목록</a>
-<a><button onclick="getWifiInfo()">목록조회</button></a>
+<a href="http://localhost:8080/history">위치 히스토리목록</a>
+<a onclick="getALLWifiInfo()">Open Api 정보 가져오기</a>
+<div>
+    <a>LAT:<input id="lat" name="lat"></a>
+    <a>LNT:<input id="lng" name="lng"></a>
+    <button onclick="getLocation()">내위치 가져오기</button>
+    <button onclick="getwifiInfo()">근처 WIFI 정보보기</button>
+</div>
+<table id="table1"class="table1">
+    <tr>
+        <th>ID</th>
+        <th>X좌표</th>
+        <th>Y좌표</th>
+        <th>조회일자</th>
+        <th>비고</th>
+    </tr>
+</table>
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
-    function getWifiInfo(){
+    function getALLWifiInfo(){
+        alert("19100개의 데이터 가져오기 성공");
         var ajax = $.ajax({
-            url: "/wifi-test",
+            url: "/get-wifiInfo",
             type:'GET',
             success: function(response) {
                 if(response == "SUCCESS") {
-                    alert("성공");
+                    alert("19100개의 데이터 가져오기 성공");
 
                 }
                 else {
                     alert("실패");
-                    // location.replace('/');
                 }
             }
         });
+    }
+
+
+    function getLocation(){
+    navigator.geolocation.getCurrentPosition(getSuccess, getError);
+    }
+    function getSuccess(position) {
+        // 위도
+        const lat = position.coords.latitude;
+        // 경도
+        const lng = position.coords.longitude;
+        // 위도 경도 오차(m)
+        const accuracy = Math.floor(position.coords.accuracy);
+        $('input[name=lat]').attr('value',lat);
+        $('input[name=lng]').attr('value',lng);
+    }
+
+    function getwifiInfo(){
+        var data = {
+            "x" : document.getElementById('lat').value,
+            "y": document.getElementById('lng').value
+        }
+
+        var ajax = $.ajax({
+            url: "/search",
+            type:'POST',
+            async: false,
+            dataType : 'JSON',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+
+            success: function(response) {
+
+            }
+        });
+
+        function deg2rad(deg) {
+            return deg * (Math.PI/180)
+        }
+
+        lng1 = 37.4623747
+        lat1 =126.96675
+        lng2 = 37.461523
+        lat2= 126.862029
+
+        var R = 6371; // Radius of the earth in km
+        var dLat = deg2rad(lat2-lat1);  // deg2rad below
+        var dLon = deg2rad(lng2-lng1);
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c; // Distance in km
+
+        alert(d)
+
+
+    }
+
+    // 가지오기 실패(거부)
+    function getError() {
+        alert('위치 가져오기 실패');
     }
 </script>

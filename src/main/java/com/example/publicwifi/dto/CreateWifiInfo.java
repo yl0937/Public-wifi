@@ -40,11 +40,11 @@ public class CreateWifiInfo {
         // "x_swifi_main_nm":"상수도사업본부",
         private String mainNm;
         // "lnt":"37.561924",
-        private  String lnt;
+        private  Double lnt;
         // "x_swifi_cnstc_year":"2014",
         private String cnstcYear;
         // "lat":"126.96675"
-        private String lat;
+        private Double lat;
 
         public static Response from(WifiInfoDto wifiInfoDto){
             return Response.builder()

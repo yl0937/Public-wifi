@@ -36,6 +36,14 @@ public class History {
         res.add(getCreatedAt().toString());
         return res.toString();
     }
+    public List getXYCreateAt(){
+        List res = new ArrayList();
+        res.add(getId());
+        res.add(getX());
+        res.add(getY());
+        res.add(getCreatedAt());
+        return res;
+    }
 
     @CreatedDate
     private LocalDateTime createdAt;

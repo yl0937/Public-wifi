@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface HistoryRepository extends JpaRepository<History, Long> {
     Optional<History> findFirstByOrderByIdDesc();
 
+
 }

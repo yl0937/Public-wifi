@@ -17,9 +17,12 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +30,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Controller
 public class WifiController {
     private final HistoryRepository historyRepository;
     private final WifiInfoRepository wifiInfoRepository;
@@ -34,8 +38,9 @@ public class WifiController {
 
     private final HistoryService historyService;
     private final WifiInfoService wifiInfoService;
-    @RequestMapping(value = "/history")
-    public String redirect() {
+    @GetMapping("/history")
+    public String getHistoryPage()
+    {
         return "history";
     }
     @GetMapping("/home")
@@ -59,24 +64,23 @@ public class WifiController {
     }
 
     @GetMapping("get-history")
-    public String getHistory(){
+    public List getHistory(){
         Long cnt = historyRepository.count();
-        List<String> res = new ArrayList<String>();
-
-        for(Long i = 1L; i<cnt+1; i++){
-            List<History> histories = historyRepository.findAllById(Collections.singleton(i));
-            res.add(histories.stream()
-                    .map(History::getAll)
-                    .collect(Collectors.toList()).toString());
-        }
-        return res.toString();
+        List res = historyRepository.findAll();
+        return res;
     }
 
-    @GetMapping("wifi-test")
+    @GetMapping("get-info")
+    public List getInfo(){
+        List res = new ArrayList();
+        return res;
+    }
+
+    @GetMapping("get-wifiInfo")
     @ResponseBody
     public String loadJsonFromApi(HttpServletRequest request){
         try{
-            for(int i =1;i<1001;i++)
+            for(int i =1;i<19101;i++)
             {
                 URL url = new URL("http://openapi.seoul.go.kr:8088/426d79594a656c6939314971576673/json/TbPublicWifiInfo/"+i+"/"+i+"/");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -122,9 +126,11 @@ public class WifiController {
                 String WORK_DTTM = (String) jsonObject2.get("WORK_DTTM");
                 String X_SWIFI_SVC_SE = (String) jsonObject2.get("X_SWIFI_SVC_SE");
                 String X_SWIFI_MAIN_NM = (String) jsonObject2.get("X_SWIFI_MAIN_NM");
-                String LNT = (String) jsonObject2.get("LNT");
+                String STR_LNT = (String) jsonObject2.get("LNT");
+                Double LNT = Double.parseDouble(STR_LNT);
                 String X_SWIFI_CNSTC_YEAR = (String) jsonObject2.get("X_SWIFI_CNSTC_YEAR");
-                String LAT = (String) jsonObject2.get("LAT");
+                String STR_LAT = (String) jsonObject2.get("LAT");
+                Double LAT = Double.parseDouble(STR_LAT);
                 CreateWifiInfo.Response.from(
                         wifiInfoService.createWifiInfo(
                         X_SWIFI_INOUT_DOOR,

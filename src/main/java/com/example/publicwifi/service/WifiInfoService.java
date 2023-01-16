@@ -27,9 +27,9 @@ public class WifiInfoService {
             String dttm,
             String svcSe,
             String mainNm,
-            String lnt,
+            Double lnt,
             String cnstcYear,
-            String lat
+            Double lat
     ){
         return WifiInfoDto.fromEntity(
                 wifiInfoRepository.save(WifiInfo.builder()
